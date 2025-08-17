@@ -1,31 +1,8 @@
-// DOM Elements
-const themeToggle = document.getElementById('themeToggle');
-const emailText = document.getElementById('emailText');
-const copyBtn = document.getElementById('copyBtn');
-const newEmailBtn = document.getElementById('newEmailBtn');
-const refreshBtn = document.getElementById('refreshBtn');
-const deleteBtn = document.getElementById('deleteBtn');
-const autoRefreshBtn = document.getElementById('autoRefreshBtn');
-const inboxContainer = document.getElementById('inboxContainer');
-const emailCount = document.getElementById('emailCount');
-const clearBtn = document.getElementById('clearBtn');
-const toast = document.getElementById('toast');
-const emailExpiry = document.getElementById('emailExpiry');
-const expiryTimer = document.getElementById('expiryTimer');
-const extendBtn = document.getElementById('extendBtn');
-
-const emailModal = document.getElementById('emailModal');
-const modalClose = document.getElementById('modalClose');
-const modalSubject = document.getElementById('modalSubject');
-const modalSender = document.getElementById('modalSender');
-const modalTime = document.getElementById('modalTime');
-const modalBody = document.getElementById('modalBody');
-const deleteModal = document.getElementById('deleteModal');
-const deleteModalClose = document.getElementById('deleteModalClose');
-const deleteEmailText = document.getElementById('deleteEmailText');
-const cancelDelete = document.getElementById('cancelDelete');
-const confirmDelete = document.getElementById('confirmDelete');
-const loadingOverlay = document.getElementById('loadingOverlay');
+// DOM Elements - Will be initialized after DOM loads
+let themeToggle, emailText, copyBtn, newEmailBtn, refreshBtn, deleteBtn, autoRefreshBtn;
+let inboxContainer, emailCount, clearBtn, toast, emailExpiry, expiryTimer, extendBtn;
+let emailModal, modalClose, modalSubject, modalSender, modalTime, modalBody;
+let deleteModal, deleteModalClose, deleteEmailText, cancelDelete, confirmDelete, loadingOverlay;
 
 // State
 let currentEmail = '';
@@ -44,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize with a slight delay for smooth appearance
     setTimeout(() => {
+        initializeDOMElements(); // Initialize DOM elements first
         initializeApp();
         setupEventListeners();
         loadThemePreference();
@@ -54,6 +32,44 @@ document.addEventListener('DOMContentLoaded', () => {
         showPageReadyAnimation();
     }, 300);
 });
+
+// Initialize DOM elements
+function initializeDOMElements() {
+    themeToggle = document.getElementById('themeToggle');
+    emailText = document.getElementById('emailText');
+    copyBtn = document.getElementById('copyBtn');
+    newEmailBtn = document.getElementById('newEmailBtn');
+    refreshBtn = document.getElementById('refreshBtn');
+    deleteBtn = document.getElementById('deleteBtn');
+    autoRefreshBtn = document.getElementById('autoRefreshBtn');
+    inboxContainer = document.getElementById('inboxContainer');
+    emailCount = document.getElementById('emailCount');
+    clearBtn = document.getElementById('clearBtn');
+    toast = document.getElementById('toast');
+    emailExpiry = document.getElementById('emailExpiry');
+    expiryTimer = document.getElementById('expiryTimer');
+    extendBtn = document.getElementById('extendBtn');
+    
+    emailModal = document.getElementById('emailModal');
+    modalClose = document.getElementById('modalClose');
+    modalSubject = document.getElementById('modalSubject');
+    modalSender = document.getElementById('modalSender');
+    modalTime = document.getElementById('modalTime');
+    modalBody = document.getElementById('modalBody');
+    deleteModal = document.getElementById('deleteModal');
+    deleteModalClose = document.getElementById('deleteModalClose');
+    deleteEmailText = document.getElementById('deleteEmailText');
+    cancelDelete = document.getElementById('cancelDelete');
+    confirmDelete = document.getElementById('confirmDelete');
+    loadingOverlay = document.getElementById('loadingOverlay');
+    
+    console.log('DOM elements initialized:', {
+        autoRefreshBtn: !!autoRefreshBtn,
+        newEmailBtn: !!newEmailBtn,
+        refreshBtn: !!refreshBtn,
+        deleteBtn: !!deleteBtn
+    });
+}
 
 // Initialize app
 function initializeApp() {
@@ -113,6 +129,14 @@ function setupEventListeners() {
     autoRefreshBtn.addEventListener('click', toggleAutoRefresh);
     clearBtn.addEventListener('click', clearInbox);
     extendBtn.addEventListener('click', extendEmailExpiry);
+    
+    // Ensure auto-refresh button is properly initialized
+    if (autoRefreshBtn) {
+        autoRefreshBtn.addEventListener('click', toggleAutoRefresh);
+        console.log('Auto-refresh button event listener added');
+    } else {
+        console.error('Auto-refresh button not found!');
+    }
 
     
     // Modal event listeners
@@ -416,6 +440,9 @@ function updateExpiryDisplay() {
 
 // Enhanced auto-refresh functionality
 function toggleAutoRefresh() {
+    console.log('Auto-refresh button clicked!');
+    console.log('Current state:', isAutoRefreshActive);
+    
     if (isAutoRefreshActive) {
         stopAutoRefresh();
     } else {
